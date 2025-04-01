@@ -14,9 +14,9 @@ from io import BytesIO
 from flask import Flask
 
 # פרטי התחברות לבוט
-API_ID = ''         # הכנס כאן את ה-API ID שלך
-API_HASH = ''       # הכנס כאן את ה-API HASH שלך
-TELEGRAM_TOKEN = '' # הכנס כאן את הטוקן של הבוט
+API_ID = '22558238'         # הכנס כאן את ה-API ID שלך
+API_HASH = '41abc14dd9f760887a50f9cd2cc1bb73'       # הכנס כאן את ה-API HASH שלך
+TELEGRAM_TOKEN = '7349147675:AAFhc6DljIe6cpRhGB6oUM1x2szOcuhWrhs' # הכנס כאן את הטוקן של הבוט
 
 # הגבלת קובץ עד 2 ג'יגה
 MAX_FILESIZE = 2 * 1024 * 1024 * 1024  # 2 ג'יגה בבתים
