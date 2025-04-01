@@ -1,0 +1,6 @@
+pyrogram==2.0.108
+tgcrypto==1.2.2
+yt-dlp==2023.8.4
+requests==2.31.0
+Pillow==9.5.0
+Flask==2.3.2
