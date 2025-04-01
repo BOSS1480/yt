@@ -14,14 +14,14 @@ from io import BytesIO
 from flask import Flask
 
 # פרטי התחברות לבוט
-API_ID = '22558238'         # הכנס כאן את ה-API ID שלך
-API_HASH = '41abc14dd9f760887a50f9cd2cc1bb73'       # הכנס כאן את ה-API HASH שלך
-TELEGRAM_TOKEN = '7349147675:AAFhc6DljIe6cpRhGB6oUM1x2szOcuhWrhs' # הכנס כאן את הטוקן של הבוט
+API_ID = '22558238'
+API_HASH = '41abc14dd9f760887a50f9cd2cc1bb73'
+TELEGRAM_TOKEN = '7349147675:AAFhc6DljIe6cpRhGB6oUM1x2szOcuhWrhs'
 
-# הגבלת קובץ עד 2 ג'יגה
-MAX_FILESIZE = 2 * 1024 * 1024 * 1024  # 2 ג'יגה בבתים
+# הגבלת קובץ עד 2 ג'יגה (בתים)
+MAX_FILESIZE = 2 * 1024 * 1024 * 1024
 
-# שימוש בקובץ cookies.txt עבור yt-dlp
+# שימוש בקובץ cookies.txt עבור yt-dlp (וודא שהקובץ קיים בתיקיית הפרויקט)
 COOKIES_FILE = 'cookies.txt'
 
 # יצירת תיקיות נדרשות
@@ -31,6 +31,9 @@ for folder in ['downloads', 'thumbnails']:
 
 # הגדרת Pyrogram Client
 app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=TELEGRAM_TOKEN)
+
+# הגדרת רמת לוגים (ניתן להעלות ל-DEBUG לצורך איתור בעיות)
+logging.getLogger("pyrogram").setLevel(logging.INFO)
 
 def format_size(size):
     if size == 0:
@@ -171,7 +174,7 @@ async def download_and_send_media(client, message, url, as_audio=False):
         except Exception as e:
             logging.error(f"Error cleaning up files: {str(e)}")
 
-# פקודת /d לקבלת קישור והצגת אפשרות בחירה בין וידאו לשמע
+# פקודת /d לקבלת קישור והצגת אפשרות בחירה בין וידאו לשמע – ללא הגבלה על משתמשים
 @app.on_message(filters.command("d"))
 async def download_command(client, message):
     if len(message.command) < 2:
@@ -195,7 +198,7 @@ async def download_command(client, message):
 
     await message.reply_text("🔽 בחר את סוג ההורדה:", reply_markup=keyboard)
 
-# טיפול בבחירת המשתמש מהאינליין
+# טיפול בבחירת המשתמש מהאינליין – ללא הגבלה
 @app.on_callback_query(filters.regex(r"^(video|audio)_"))
 async def download_callback(client, callback_query):
     download_type, url = callback_query.data.split("_", 1)
