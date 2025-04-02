@@ -8,7 +8,7 @@ ENV PYROGRAM_NO_CACHE=1
 WORKDIR /app
 
 # העתקת קבצי הקוד, הדרישות, cookies.txt
-COPY main.py /app/bot.py
+COPY main.py /app/main.py
 COPY requirements.txt /app/requirements.txt
 COPY cookies.txt /app/cookies.txt
 
@@ -19,4 +19,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8000
 
 # הפעלת הבוט
-CMD ["python", "bot.py"]
+CMD ["python", "main.py"]
