@@ -1,18 +1,18 @@
-# השתמשו בגרסת Python 3.10-slim
 FROM python:3.10-slim
 
-# מגדירים משתנה סביבה כדי למנוע יצירת cache על ידי Pyrogram
-ENV PYROGRAM_NO_CACHE=1
+# עדכון רשימת החבילות והתקנת gcc וכלי פיתוח
+RUN apt-get update && apt-get install -y gcc build-essential
 
 # הגדרת תיקיית עבודה
 WORKDIR /app
 
-# העתקת קבצי הקוד, הדרישות, cookies.txt
+# העתקת הקבצים הדרושים
 COPY main.py /app/main.py
 COPY requirements.txt /app/requirements.txt
 COPY cookies.txt /app/cookies.txt
 
-# התקנת התלויות
+# עדכון pip והתקנת התלויות
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 # חשיפת הפורט 8000 (ל-Koyeb)
