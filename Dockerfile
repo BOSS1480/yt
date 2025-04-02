@@ -8,7 +8,7 @@ ENV PYROGRAM_NO_CACHE=1
 WORKDIR /app
 
 # העתקת קבצי הקוד, הדרישות, cookies.txt
-COPY main.py /app/main.py
+COPY main.py /app/bot.py
 COPY requirements.txt /app/requirements.txt
 COPY cookies.txt /app/cookies.txt
 
