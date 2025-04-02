@@ -1,4 +1,4 @@
-pyrogram==2.0.105
+pyrogram
 tgcrypto==1.2.2
 yt-dlp==2023.10.13
 requests==2.31.0
