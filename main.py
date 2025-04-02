@@ -207,7 +207,7 @@ async def start_handler(client, message):
     )
     await message.reply_text(welcome_text)
 
-@app.on_message(filters.text & ~filters.command() & filters.create(lambda _, __, msg: "youtu" in msg.text.lower()))
+@app.on_message(filters.text & ~filters.command(['start', 'help']) & filters.create(lambda _, __, msg: "youtu" in msg.text.lower()))
 async def url_handler(client, message):
     url = message.text.strip()
     keyboard = InlineKeyboardMarkup([
