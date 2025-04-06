@@ -5,7 +5,7 @@ from yt_dlp import YoutubeDL
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram.enums import ChatType
-from flask import Flask, request
+from flask import Flask, request, abort  # הוספנו abort
 
 # הגדרות בסיסיות
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
@@ -19,7 +19,8 @@ app = Client(
     "youtube_downloader_bot",
     api_id=API_ID,
     api_hash=API_HASH,
-    bot_token=BOT_TOKEN
+    bot_token=BOT_TOKEN,
+    plugins=dict(root="plugins")  # הפעלת פלאגינים אם יש
 )
 
 # הפעלת Flask
@@ -478,21 +479,25 @@ def handle_quality_choice(client: Client, callback_query: CallbackQuery):
 # פונקציה של Flask כדי לקבל עדכונים מהטלגרם
 @flask_app.route('/', methods=['POST'])
 def webhook():
-    if request.headers.get('content-type') == 'application/json':
-        json_string = request.get_data().decode('utf-8')
+    if not request.json:
+        abort(400)  # החזרת קוד שגיאה 400 אם אין JSON
+    json_string = request.get_data().decode('utf-8')
+    # attempt to decode the string.
+    try:
         update = telebot.types.Update.de_json(json_string)
-        # הדפסת הלוג
-        print(f"קיבל עדכון: {update}")
-        if update.message:
-          app.process_new_messages([update.message])
-        elif update.callback_query:
-          app.process_callback_query(update.callback_query)
-        return 'OK', 200
-    else:
-        return 'OK', 200
+    except Exception as e:
+        print(f"Error decoding JSON: {e}, raw data: {json_string}")
+        abort(400)
+
+    # הדפסת הלוג
+    print(f"קיבל עדכון: {update}")
+    if update.message:
+        app.process_new_messages([update.message])
+    elif update.callback_query:
+        app.process_callback_queries([update.callback_query])
+    return 'OK', 200
 
 # נקודת כניסה של Flask
 if __name__ == "__main__":
     # הפעלת השרת של Flask בפורט 8000
     flask_app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8000)))
-
