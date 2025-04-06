@@ -1,22 +1,21 @@
-FROM python:3.10-slim
+# השתמש בתמונה בסיסית של Python
+FROM python:3.11-slim-buster
 
-# עדכון רשימת החבילות והתקנת gcc וכלי פיתוח
-RUN apt-get update && apt-get install -y gcc build-essential
-
-# הגדרת תיקיית עבודה
+# הגדר את סביבת העבודה בתוך הדוקר
 WORKDIR /app
 
-# העתקת הקבצים הדרושים
-COPY main.py /app/main.py
-COPY requirements.txt /app/requirements.txt
-COPY cookies.txt /app/cookies.txt
+# העתק את קובץ הדרישות
+COPY requirements.txt /app
 
-# עדכון pip והתקנת התלויות
-RUN pip install --upgrade pip
+# התקן את התלות
 RUN pip install --no-cache-dir -r requirements.txt
 
-# חשיפת הפורט 8000 (ל-Koyeb)
+# העתק את שאר קוד האפליקציה
+COPY . /app
+
+# חשוף את הפורט עליו האפליקציה יאזין
 EXPOSE 8000
 
-# הפעלת הבוט
-CMD ["python", "main.py"]
+# הפעל את הבוט
+CMD ["python", "bot.py"]
+
