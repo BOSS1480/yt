@@ -1,3 +1,4 @@
 pyrogram
 yt-dlp
 flask
+requests
