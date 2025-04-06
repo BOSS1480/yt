@@ -2,3 +2,4 @@ pyrogram
 yt-dlp
 flask
 requests
+tgcrypto
